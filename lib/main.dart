@@ -1,44 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:weather_app/Screens/loading_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  // print(DotEnv().env['PWD']);
+
+  await dotenv.load(fileName: ".env");
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0XFF5F859A),
+        // Define the default font family.
+        fontFamily: 'Georgia',
+
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Color(0XFFfffff2),
+          ),
+          bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
+        ),
       ),
-      home: const MyHomePage(title: 'Weather App'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(),
-      ),
+      home: const LoadingScreen(),
     );
   }
 }
