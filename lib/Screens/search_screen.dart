@@ -3,8 +3,6 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:weather_app/Screens/location_screen.dart';
 import 'package:weather_app/models/city.dart';
 import 'package:weather_app/repository/city_repository.dart';
-import 'package:weather_app/repository/database.dart';
-import 'package:weather_app/services/networking.dart';
 import 'package:weather_app/services/weather.dart';
 
 class SearchScreen extends StatefulWidget {

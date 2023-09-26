@@ -26,37 +26,26 @@ class _GetWeatherState extends State<LocationScreen> {
   int feelsLike = 0;
   int minTemp = 0;
   int maxTemp = 0;
+  String icon = '';
 
   @override
   void initState() {
     super.initState();
-    print(widget.locationWeather);
     updateUI(widget.locationWeather);
   }
 
   void updateUI(dynamic weatherData) {
     setState(() {
-      var temp = weatherData['main']['temp'];
-      var humidity_ = weatherData['main']['humidity'];
-      var minTemp_ = weatherData['main']['temp_min'];
-      var maxTemp_ = weatherData['main']['temp_max'];
-      var feelsLike_ = weatherData['main']['feels_like'];
-      var sunriseTimeStamp = weatherData['sys']['sunrise'];
-      var sunsetTimeStamp = weatherData['sys']['sunset'];
-      DateTime sunriseDateTime =
-          DateTime.fromMillisecondsSinceEpoch(sunriseTimeStamp * 1000);
-      DateTime sunsetDateTime =
-          DateTime.fromMillisecondsSinceEpoch(sunsetTimeStamp * 1000);
-
-      temperature = temp.toInt() ?? 0;
-      humidity = humidity_.toInt() ?? 0;
-      minTemp = minTemp_.toInt() ?? 0;
-      maxTemp = maxTemp_.toInt() ?? 0;
-      city = weatherData['name'] ?? 0;
-      sunrise = DateFormat('HH:mm').format(sunriseDateTime);
-      sunset = DateFormat('HH:mm').format(sunsetDateTime);
-      feelsLike = feelsLike_.toInt() ?? 0;
-      description = weatherData['weather'][0]['description'];
+      temperature = weatherData.temperature;
+      humidity = weatherData.humidity;
+      minTemp = weatherData.minTemperature;
+      maxTemp = weatherData.maxTemperature;
+      city = weatherData.city;
+      sunrise = DateFormat('HH:mm').format(weatherData.sunrise);
+      sunrise = DateFormat('HH:mm').format(weatherData.sunset);
+      feelsLike = weatherData.feelsLike;
+      description = weatherData.description;
+      icon = weatherData.icon;
     });
   }
 
@@ -79,6 +68,7 @@ class _GetWeatherState extends State<LocationScreen> {
                 },
               ),
             ),
+            Image.network(icon),
             Text(
               '$temperature°C',
               style:
