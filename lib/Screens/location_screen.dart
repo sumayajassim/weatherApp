@@ -159,13 +159,6 @@ class _GetWeatherState extends State<LocationScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SearchScreen()));
-        },
-        child: const Icon(Icons.add),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );
   }

@@ -15,6 +15,7 @@ class _GetStartedState extends State<LoadingScreen> {
   @override
   void initState() {
     getLocationWeather();
+
     super.initState();
   }
 

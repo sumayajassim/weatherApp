@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/services/weather.dart';
 
-class WeatherCard extends StatelessWidget {
-  final String cityName;
-  final int? temperature;
-  final String? description;
-  final int? minTemp;
-  final int? maxTemp;
-  final String? icon;
+class WeatherCard extends StatefulWidget {
+  final dynamic weatherData;
+  WeatherCard({this.weatherData});
 
-  const WeatherCard(
-      {Key? key,
-      required this.cityName,
-      this.temperature,
-      this.minTemp,
-      this.maxTemp,
-      this.icon,
-      this.description})
-      : super(key: key);
+  @override
+  State<WeatherCard> createState() => _WeatherCardState();
+}
+
+class _WeatherCardState extends State<WeatherCard> {
+  int temperature = 0;
+  String description = '';
+  String city = '';
+  int minTemp = 0;
+  int maxTemp = 0;
+  String icon = '';
+
+  @override
+  void initState() {
+    updateUI(widget.weatherData);
+    super.initState();
+  }
+
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      temperature = weatherData.temperature;
+      minTemp = weatherData.minTemperature;
+      maxTemp = weatherData.maxTemperature;
+      city = weatherData.city;
+      description = weatherData.description;
+      icon = weatherData.icon;
+    });
+  }
+
+  // weatherData(widget.weatherData);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        height: 150,
+        height: 200,
         padding: const EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,9 +48,9 @@ class WeatherCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(icon!),
+                Image.network(icon),
                 Text(
-                  cityName,
+                  city,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

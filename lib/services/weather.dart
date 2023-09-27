@@ -30,24 +30,24 @@ class Weather {
 
 class WeatherData {
   int temperature;
-  int humidity;
+  int? humidity;
   int minTemperature;
   int maxTemperature;
-  int feelsLike;
+  int? feelsLike;
   String description;
-  DateTime sunrise;
-  DateTime sunset;
+  DateTime? sunrise;
+  DateTime? sunset;
   String city;
   String icon;
 
   WeatherData({
     required this.temperature,
-    required this.humidity,
+    this.humidity,
     required this.minTemperature,
     required this.maxTemperature,
-    required this.feelsLike,
-    required this.sunrise,
-    required this.sunset,
+    this.feelsLike,
+    this.sunrise,
+    this.sunset,
     required this.city,
     required this.description,
     required this.icon,

@@ -17,6 +17,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
   late AutoCompleteTextField<dynamic> searchTextField;
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
   List<WeatherData>? citiesList = [];
+  bool isLoading = true;
   List<String> cities = [
     'New York',
     'Toronto',
@@ -40,6 +41,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
     print(citiesList);
     setState(() {
       citiesList!.insert(0, weatherData);
+      isLoading = false;
       // citiesList!;
     });
   }
@@ -68,29 +70,35 @@ class _CitiesScreenState extends State<CitiesScreen> {
         body: Column(children: <Widget>[
           Container(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                searchTextField = AutoCompleteTextField<String>(
-                  key: key,
-                  clearOnSubmit: false,
-                  suggestions: cities,
-                  decoration: const InputDecoration(
-                    labelText: 'Search',
+            child: isLoading
+                ? const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
+                    backgroundColor: Colors.grey,
+                    strokeWidth: 4.0,
+                  )
+                : Column(
+                    children: <Widget>[
+                      searchTextField = AutoCompleteTextField<String>(
+                        key: key,
+                        clearOnSubmit: false,
+                        suggestions: cities,
+                        decoration: const InputDecoration(
+                          labelText: 'Search',
+                        ),
+                        itemFilter: (item, query) =>
+                            item.toLowerCase().startsWith(query.toLowerCase()),
+                        itemSorter: (a, b) => a.compareTo(b),
+                        itemSubmitted: (item) {
+                          cityWeather(item);
+                        },
+                        itemBuilder: (context, item) {
+                          return ListTile(
+                            title: Text(item),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  itemFilter: (item, query) =>
-                      item.toLowerCase().startsWith(query.toLowerCase()),
-                  itemSorter: (a, b) => a.compareTo(b),
-                  itemSubmitted: (item) {
-                    cityWeather(item);
-                  },
-                  itemBuilder: (context, item) {
-                    return ListTile(
-                      title: Text(item),
-                    );
-                  },
-                ),
-              ],
-            ),
           ),
           Expanded(
             child: ListView.builder(
@@ -106,14 +114,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
                             builder: (context) =>
                                 LocationScreen(locationWeather: city)));
                   },
-                  child: WeatherCard(
-                    cityName: city?.city ?? '',
-                    temperature: city?.temperature,
-                    minTemp: city?.minTemperature,
-                    maxTemp: city?.maxTemperature,
-                    description: city?.description,
-                    icon: city?.icon,
-                  ),
+                  child: WeatherCard(weatherData: city),
                 );
               },
             ),
